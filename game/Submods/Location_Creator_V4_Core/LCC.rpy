@@ -33,11 +33,6 @@ init -1 python:
                 if loc.sid == location:
                     loc.update_setting(setting)
     Location_Manager = LocationManager()
-    class LCC_NoData(Exception):
-        def __init__(self, arg1):
-            self.arg1 = arg1
-        def __str__(self):
-            return "[LCC] 没有 {arg1} 的相关信息"
     class LocationData(object):
         """docstring for LocationData"""
         setting = {
@@ -59,8 +54,22 @@ init -1 python:
         def get_setting(self, keys):
             return self.setting[keys]
 
-        def get_imgdata(self, times ,keys):
-            return self.simgmaps[times][keys]
+        def verify(self):
+            # 白天和晚上的图不允许为空
+            pass
+        def _verify_img(self, filename):
+            if not renpy.loadable(filename):
+                raise LCC_FileNotLoadable(filename)
+        def init_img(self):
+            times = ['day', 'night', 'sunset']
+            weather = ['def', 'rain', 'overcast', 'snow']
+
+        def get_imgname(self, times ,keys):
+            return "{}_{}_{}".format(
+                self.sid,
+                times,
+                keys
+            )
         
         def update_setting(set1):
             return setting.update(set1)
@@ -71,22 +80,22 @@ init -1 python:
                 prompt=self.sname,
                 image_map=MASFilterWeatherMap(
                     day=MASWeatherMap({
-                        store.mas_weather.PRECIP_TYPE_DEF: self.get_imgdata("day", "def"),
-                        store.mas_weather.PRECIP_TYPE_RAIN: self.get_imgdata("day", "rain"),
-                        store.mas_weather.PRECIP_TYPE_OVERCAST: self.get_imgdata("day", "overcast"),
-                        store.mas_weather.PRECIP_TYPE_SNOW: self.get_imgdata("day", "snow"),
+                        store.mas_weather.PRECIP_TYPE_DEF: self.get_imgname("day", "def"),
+                        store.mas_weather.PRECIP_TYPE_RAIN: self.get_imgname("day", "rain"),
+                        store.mas_weather.PRECIP_TYPE_OVERCAST: self.get_imgname("day", "overcast"),
+                        store.mas_weather.PRECIP_TYPE_SNOW: self.get_imgname("day", "snow"),
                     }),
                     night=MASWeatherMap({
-                        store.mas_weather.PRECIP_TYPE_DEF: self.get_imgdata("night", "def"),
-                        store.mas_weather.PRECIP_TYPE_RAIN: self.get_imgdata("night", "rain"),
-                        store.mas_weather.PRECIP_TYPE_OVERCAST: self.get_imgdata("night", "overcast"),
-                        store.mas_weather.PRECIP_TYPE_SNOW: self.get_imgdata("night", "snow"),
+                        store.mas_weather.PRECIP_TYPE_DEF: self.get_imgname("night", "def"),
+                        store.mas_weather.PRECIP_TYPE_RAIN: self.get_imgname("night", "rain"),
+                        store.mas_weather.PRECIP_TYPE_OVERCAST: self.get_imgname("night", "overcast"),
+                        store.mas_weather.PRECIP_TYPE_SNOW: self.get_imgname("night", "snow"),
                     }),
                     sunset=MASWeatherMap({
-                        store.mas_weather.PRECIP_TYPE_DEF: self.get_imgdata("sunset", "def"),
-                        store.mas_weather.PRECIP_TYPE_RAIN: self.get_imgdata("sunset", "rain"),
-                        store.mas_weather.PRECIP_TYPE_OVERCAST: self.get_imgdata("sunset", "overcast"),
-                        store.mas_weather.PRECIP_TYPE_SNOW: self.get_imgdata("sunset", "snow"),
+                        store.mas_weather.PRECIP_TYPE_DEF: self.get_imgname("sunset", "def"),
+                        store.mas_weather.PRECIP_TYPE_RAIN: self.get_imgname("sunset", "rain"),
+                        store.mas_weather.PRECIP_TYPE_OVERCAST: self.get_imgname("sunset", "overcast"),
+                        store.mas_weather.PRECIP_TYPE_SNOW: self.get_imgname("sunset", "snow"),
                     }),
                 ),
                 filter_man=MASBackgroundFilterManager(

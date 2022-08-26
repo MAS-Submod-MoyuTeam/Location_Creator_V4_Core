@@ -1,5 +1,5 @@
 # 定义图片
-image png_d = "mod_assets/location/test_V4/maiteasu_lr_gamedus_day.png"
+#image mod_assets/location/test_V4/maiteasu_lr_gamedus_day.png = "mod_assets/location/test_V4/maiteasu_lr_gamedus_day.png"
 
 # 初始化阶段不应更改
 init -1 python:
@@ -14,27 +14,27 @@ init -1 python:
                 # 白天
                 "day":{
                     # 晴朗
-                    "def": "png_d",
+                    "def": "mod_assets/location/test_V4/maiteasu_lr_gamedus_day.png",
                     # 下雨
-                    "rain": "png_d",
+                    "rain": "mod_assets/location/test_V4/maiteasu_lr_gamedus_day.png",
                     # 多云
-                    "overcast": "png_d",
+                    "overcast": "mod_assets/location/test_V4/maiteasu_lr_gamedus_day.png",
                     # 雪天
-                    "snow": "png_d"
+                    "snow": "mod_assets/location/test_V4/maiteasu_lr_gamedus_day.png"
                 },
                 # 晚上
                 "night":{
-                    "def": "png_d",
-                    "rain": "png_d",
-                    "overcast": "png_d",
-                    "snow": "png_d"
+                    "def": "mod_assets/location/test_V4/maiteasu_lr_gamedus_day.png",
+                    "rain": "mod_assets/location/test_V4/maiteasu_lr_gamedus_day.png",
+                    "overcast": "mod_assets/location/test_V4/maiteasu_lr_gamedus_day.png",
+                    "snow": "mod_assets/location/test_V4/maiteasu_lr_gamedus_day.png"
                 },
                 # 夕阳
                 "sunset":{
-                    "def": "png_d",
-                    "rain": "png_d",
-                    "overcast": "png_d",
-                    "snow": "png_d"
+                    "def": "mod_assets/location/test_V4/maiteasu_lr_gamedus_day.png",
+                    "rain": "mod_assets/location/test_V4/maiteasu_lr_gamedus_day.png",
+                    "overcast": "mod_assets/location/test_V4/maiteasu_lr_gamedus_day.png",
+                    "snow": "mod_assets/location/test_V4/maiteasu_lr_gamedus_day.png"
                 },
             }
         )
