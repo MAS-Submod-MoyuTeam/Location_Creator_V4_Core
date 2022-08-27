@@ -3,38 +3,22 @@
 
 # 初始化阶段不应更改
 init -1 python:
-    Location_Manager.append(
+    Location_Manager.AddLocation(
         LocationData(
             # 房间id，这个id不能重复
             sid = "test_v4_template",
             # 房间显示名称
             sname = "房间模板v4测试",
             # 房间图片列表
-            simgmaps = {
+            imgmaps = {
                 # 白天
                 "day":{
                     # 晴朗
-                    "def": "mod_assets/location/test_V4/maiteasu_lr_gamedus_day.png",
-                    # 下雨
-                    "rain": "mod_assets/location/test_V4/maiteasu_lr_gamedus_day.png",
-                    # 多云
-                    "overcast": "mod_assets/location/test_V4/maiteasu_lr_gamedus_day.png",
-                    # 雪天
-                    "snow": "mod_assets/location/test_V4/maiteasu_lr_gamedus_day.png"
+                    "def": "mod_assets/location/test_V4/maiteasu_lr_gamedus_day.png"
                 },
                 # 晚上
                 "night":{
                     "def": "mod_assets/location/test_V4/maiteasu_lr_gamedus_day.png",
-                    "rain": "mod_assets/location/test_V4/maiteasu_lr_gamedus_day.png",
-                    "overcast": "mod_assets/location/test_V4/maiteasu_lr_gamedus_day.png",
-                    "snow": "mod_assets/location/test_V4/maiteasu_lr_gamedus_day.png"
-                },
-                # 夕阳
-                "sunset":{
-                    "def": "mod_assets/location/test_V4/maiteasu_lr_gamedus_day.png",
-                    "rain": "mod_assets/location/test_V4/maiteasu_lr_gamedus_day.png",
-                    "overcast": "mod_assets/location/test_V4/maiteasu_lr_gamedus_day.png",
-                    "snow": "mod_assets/location/test_V4/maiteasu_lr_gamedus_day.png"
                 },
             }
         )
@@ -66,3 +50,24 @@ init -1 python:
     #        'deco_man': None
     #    }
     #)
+
+    ## 如果你有更改模板设置的需求，请取消以下注释
+    Location_Manager.set_config(
+        # 要设置的房间id，同你一开始写的
+        location = "test_v4_template",
+        # 设置项，以下为默认设置
+        setting={
+            # 是否启用entry_pp
+            'entry_pp_enable': True,
+            # 是否启用exit_pp
+            'exit_pp_enable': True,
+            # 进入房间时的聊天内容 格式为[(1eua, "要说的话"), (2eua, "say something")]，必须先启用entry_pp
+            'entry_talk': [("1eua", "好耶！"), ("2eua", "退出对话")],
+            # 回到默认房间时的聊天内容，必须先启用exit_pp
+            'exit_talk': [("1eua", "好耶！"), ("2eua", "退出对话")],
+            # 更换桌面
+            'desk_acs': None,
+            # simgmaps 文件路径前缀
+            'location_assets_prefix': ''
+        }
+    )
