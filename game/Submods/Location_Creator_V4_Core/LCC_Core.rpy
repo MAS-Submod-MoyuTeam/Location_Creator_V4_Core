@@ -3,7 +3,7 @@ init -990 python:
         author="P",
         name="房间模板V4核心",
         description="房间模板V4的前置子模组.",
-        version='1.0.0',
+        version='1.0.1',
     )
 
 init -989 python:
@@ -50,13 +50,36 @@ init -9 python in LocationManager:
             if loc.sid == id:
                 return loc
 init -10 python:
-    class LocationData:
-        debugmode=False
+    class LocationData(object):
+        debugmode=True
         """docstring for LocationData"""
         times = ['day', 'night', 'sunset']
         weather = ['def', 'rain', 'overcast', 'snow']
-        simgmaps = {}
-        __setting = {
+        
+        
+        def __new__(cls, sid, sname, imgmaps, config={}, setting={}):
+            return super(LocationData, cls).__new__(cls, sid, sname, imgmaps, config={}, setting={})
+        def __init__(self, sid, sname, imgmaps, config={}, setting={}):
+            self.sid = sid
+            self.sname = sname
+            self.simgmaps = {}
+            self.__template_config = {
+            # 是否启用entry_pp
+            'entry_pp_enable': False,
+            # 是否启用exit_pp
+            'exit_pp_enable': False,
+            # 进入房间时的聊天内容 格式为(1eua, "要说的话")
+            'entry_talk': None,
+            # 回到默认房间时的聊天内容
+            'exit_talk': None,
+            # 更换桌面，文件应该位于mod_assets/monika/t，命名格式为 table-<desk_acs的值>.png，需要启用entry_pp和exit_pp
+            'desk_acs': None,
+            # 更换椅子，文件应该位于mod_assets/monika/t，命名格式为 chair-<chair_acs的值>.png，需要启用entry_pp和exit_pp
+            'chair_acs': None,
+            # imgmaps 文件路径前缀
+            'location_assets_prefix': ''
+            }
+            self.__setting = {
             # 禁用天气变换
             'disable_progressive': False,
             # 禁用天气动画
@@ -73,28 +96,7 @@ init -10 python:
             'ex_props': None,
             # MASDecoManager 应该是特定节日的装饰管理器
             'deco_man': None
-        }
-        __template_config = {
-            # 是否启用entry_pp
-            'entry_pp_enable': False,
-            # 是否启用exit_pp
-            'exit_pp_enable': False,
-            # 进入房间时的聊天内容 格式为(1eua, "要说的话")
-            'entry_talk': None,
-            # 回到默认房间时的聊天内容
-            'exit_talk': None,
-            # 更换桌面，文件应该位于mod_assets/monika/t，命名格式为 table-<desk_acs的值>.png，需要启用entry_pp和exit_pp
-            'desk_acs': None,
-            # 更换椅子，文件应该位于mod_assets/monika/t，命名格式为 chair-<chair_acs的值>.png，需要启用entry_pp和exit_pp
-            'chair_acs': None,
-            # imgmaps 文件路径前缀
-            'location_assets_prefix': ''
-        }
-        def __new__(cls, sid, sname, imgmaps, config={}, setting={}):
-            return super(LocationData, cls).__new__(cls, sid, sname, imgmaps, config={}, setting={})
-        def __init__(self, sid, sname, imgmaps, config={}, setting={}):
-            self.sid = sid
-            self.sname = sname
+            }
             for i in self.times:
                 self.simgmaps[i] = {}
                 for w in self.weather:
@@ -106,12 +108,11 @@ init -10 python:
             self.debug("ID: {}\nIMG:\n{}".format(self.sid, self.simgmaps))
             self.update_config(config)
             self.update_setting(setting)
-            self.verify()
-            self.init_img()
-
 
         def init(self):
             try:
+                self.verify()
+                self.init_img()
                 self.registed()
             except Exception:
                 raise LCC_DuplicateBackgroundID(self.sid)
